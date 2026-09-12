@@ -48,7 +48,6 @@ def prepare_block(df_block):
     df_block["RQ_calc"] = df_block["RQ_calc"].astype(float)
     df_block.loc[df_block["RQ_calc"] <= 0, "RQ_calc"] = 1e-4
 
-    # un record per soggetto
     df_block[sample_col] = df_block[sample_col].astype(str).str.strip()
     df_block = df_block.drop_duplicates(subset=[sample_col], keep="first").copy()
     return df_block
@@ -157,7 +156,6 @@ def compute_and_plot_roc_combined(data_mt, data_tl, outname="ROC_combined.png"):
         y_true = np.concatenate([np.zeros(len(data[neg])), np.ones(len(data[pos]))])
         y_scores = np.concatenate([data[neg], data[pos]])
 
-        # inversione: valori più bassi = maggiore probabilità di caso
         y_scores = -y_scores
 
         fpr, tpr, _ = roc_curve(y_true, y_scores)
@@ -243,8 +241,8 @@ for neg, pos in [("HC", "PD"), ("HC", "MSA")]:
 delong_df = pd.DataFrame(delong_results)
 delong_df.to_csv("ROC_AUC_comparison_DeLong.csv", index=False)
 
-print("✅ ROC_results.csv.")
-print("✅ ROC_AUC_comparison_DeLong.csv.")
+print("ROC_results.csv.")
+print("ROC_AUC_comparison_DeLong.csv.")
 print("N samples:", df_full[group_col].value_counts().to_dict())
 
 print("\n=== DeLong ===")
