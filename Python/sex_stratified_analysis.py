@@ -272,12 +272,6 @@ def prepare_block(df_block: pd.DataFrame) -> pd.DataFrame:
     return df_block
 
 def sex_by_group_contrast_tests(df_block: pd.DataFrame, biomarker_name: str):
-    """
-    Tests whether group differences differ by sex (Sex×Group interaction),
-    for: HC vs PD, HC vs MSA, PD vs MSA.
-    Model: log2RQ ~ Group * Sex + Age, with HC3 robust SE.
-    Returns: list of contrasts with raw and FDR-adjusted p-values.
-    """
 
     d = df_block[[sample_col, group_col, "RQ_calc", "Age", "Sex"]].copy()
     d["Age"] = pd.to_numeric(d["Age"], errors="coerce")

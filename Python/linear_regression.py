@@ -182,7 +182,6 @@ def effects_and_overlap(d: pd.DataFrame, label: str):
     print(f"Cohen’s d: PD vs HC = {d_pd_hc:.2f}; MSA vs HC = {d_msa_hc:.2f}; PD vs MSA = {d_pd_msa:.2f}")
     print(f"% within HC IQR: PD = {pct_pd_in_hc_iqr:.1f}%; MSA = {pct_msa_in_hc_iqr:.1f}%")
 
-    # return dict in case you want to use values in text generation later
     return {
         "d_log2": {"PD_vs_HC": d_pd_hc, "MSA_vs_HC": d_msa_hc, "PD_vs_MSA": d_pd_msa},
         "pct_in_hc_iqr_log2": {"PD": pct_pd_in_hc_iqr, "MSA": pct_msa_in_hc_iqr},
@@ -203,9 +202,9 @@ def plot_panel(ax, data_dict, comps, ylabel, log_scale=False, jitter_seed=123):
             x, data_dict[g],
             facecolor='black' if g == "HC" else 'white',
             edgecolor='black',
-            s=28,  # puntini più piccoli
-            linewidth=0.6,  # bordo più sottile
-            zorder=4  # sopra il boxplot
+            s=28,
+            linewidth=0.6,
+            zorder=4
         )
 
         ax.boxplot(
@@ -302,7 +301,7 @@ for ax, label in zip(panel_axes, ["A", "B", "C", "D"]):
     ax.text(-0.25, 1.05, label, transform=ax.transAxes, fontsize=16, fontweight="bold")
 
 plt.tight_layout()
-plt.savefig("Figure_TeramotoStyle_FINAL_ageSexAdjusted_withRQbars.png", dpi=300)
+plt.savefig("Figure1.png", dpi=300)
 plt.show()
 
 print("\nMT model (age+sex adjusted):\n", model_mt.summary())

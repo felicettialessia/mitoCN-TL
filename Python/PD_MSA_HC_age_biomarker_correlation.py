@@ -72,7 +72,7 @@ duplicates = qpcr.duplicated(
 
 if duplicates.any():
 
-    print("\nATTENZIONE: duplicati Sample Name / Target Name:")
+    print("\nWARNING: duplicate Sample Name / Target Name:")
     print(
         qpcr.loc[
             duplicates,
@@ -81,8 +81,8 @@ if duplicates.any():
     )
 
     raise ValueError(
-        "Sono presenti duplicati sample-target. "
-        "Controllare il file prima di procedere."
+        "There are duplicates."
+        "Check the file before going on."
     )
 
 wide = qpcr.pivot(
@@ -101,7 +101,7 @@ missing_targets = [
 
 if missing_targets:
     raise ValueError(
-        f"Target mancanti nel file qPCR: {missing_targets}"
+        f"Missing targets: {missing_targets}"
     )
 
 data = demo[
@@ -138,19 +138,19 @@ for target in TARGETS:
     )
 
 print("\n==========================================")
-print("INTERA COORTE PD-MSA-HC")
+print("Overall cohort PD-MSA-HC")
 print("==========================================")
 
-print(f"\nN totale analizzato = {len(data)}")
+print(f"\nN tot = {len(data)}")
 
-print("\nNumero di soggetti per gruppo:")
+print("\nN samples by group:")
 print(
     data["Biological Group"]
     .value_counts()
     .reindex(["HC", "PD", "MSA"])
 )
 
-print("\nEtà per gruppo:")
+print("\nAge by group:")
 print(
     data.groupby("Biological Group")["Age"]
         .agg(["count", "mean", "std", "median", "min", "max"])
@@ -201,10 +201,10 @@ results["Pearson_p_FDR"] = multipletests(
 
 
 print("\n==========================================")
-print("CORRELAZIONE ETÀ - BIOMARCATORI")
-print("INTERA COORTE PD + MSA + HC")
-print("Normalizzazione: b-actin")
-print("Variabile: -DeltaCq")
+print("Age-biomarkers correlation")
+print("Overall cohort PD + MSA + HC")
+print("Normalization: b-actin")
+print("Variable: -DeltaCq")
 print("==========================================\n")
 
 print(results.to_string(index=False))
@@ -252,9 +252,9 @@ adjusted_results["p_Age_FDR"] = multipletests(
 
 
 print("\n==========================================")
-print("ASSOCIAZIONE DELL'ETÀ AGGIUSTATA")
-print("Modello: biomarker ~ Age + Diagnosis + Sex")
-print("OLS con robust SE HC3")
+print("Age association")
+print("Model: biomarker ~ Age + Diagnosis + Sex")
+print("OLS with robust SE HC3")
 print("==========================================\n")
 
 print(adjusted_results.to_string(index=False))
@@ -294,7 +294,7 @@ stratified_results = pd.DataFrame(
 )
 
 print("\n==========================================")
-print("SPEARMAN STRATIFICATA PER GRUPPO")
+print("Group-stratified Spearman")
 print("==========================================\n")
 
 print(stratified_results.to_string(index=False))
@@ -381,10 +381,10 @@ for target in TARGETS:
     plt.close()
 
 
-print("\nAnalisi completata.")
-print("Output salvati:")
+print("\nAnalysis complete.")
+print("Output:")
 print("- PD_MSA_HC_normalized_data.csv")
 print("- PD_MSA_HC_age_correlations.csv")
 print("- PD_MSA_HC_age_adjusted_HC3.csv")
 print("- PD_MSA_HC_age_correlations_by_group.csv")
-print("- grafici PNG per MT-ND1 e TELOMER")
+print("- PNG graphs for MT-ND1 e TELOMER")

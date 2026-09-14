@@ -25,7 +25,6 @@ def normalize_sex(x: pd.Series) -> pd.Series:
     return s
 
 def cohens_d(x, y) -> float:
-    """Cohen's d for independent samples (pooled SD)."""
     x = np.asarray(x, dtype=float)
     y = np.asarray(y, dtype=float)
     x = x[~np.isnan(x)]
@@ -41,7 +40,6 @@ def cohens_d(x, y) -> float:
     return (np.mean(x) - np.mean(y)) / sp
 
 def pct_within_iqr(x, ref) -> float:
-    """Percent of x values lying within the IQR of ref (inclusive)."""
     x = np.asarray(x, dtype=float)
     ref = np.asarray(ref, dtype=float)
     x = x[~np.isnan(x)]
@@ -165,13 +163,7 @@ def adj_pairwise(df_block: pd.DataFrame):
     return comps, model, d
 
 def model_diagnostics(model, label: str, out_prefix: str = "diagnostics"):
-    """
-    Diagnostics on OLS residuals:
-    - Shapiro-Wilk test (normality)
-    - Breusch-Pagan test (heteroskedasticity)
-    - Q-Q plot + residuals vs fitted
-    - automatic textual interpretation
-    """
+
     resid = pd.Series(model.resid).astype(float)
     fitted = pd.Series(model.fittedvalues).astype(float)
 
@@ -396,7 +388,7 @@ for ax, label in zip(panel_axes, ["A", "B", "C", "D"]):
     ax.text(-0.25, 1.05, label, transform=ax.transAxes, fontsize=16, fontweight="bold")
 
 plt.tight_layout()
-plt.savefig("Figure_TeramotoStyle_FINAL_ageSexAdjusted_withRQbars.png", dpi=300)
+plt.savefig("Figure1.png", dpi=300)
 plt.show()
 
 print("\nMT model (age+sex adjusted):\n", model_mt.summary())
